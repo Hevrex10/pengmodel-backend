@@ -4,16 +4,26 @@ import cloudinary from "../config/cloudinary.js";
 import AppError from "../utils/appError.js";
 
 export async function getAllModel(req, res, next) {
+  const page = Number(req.query.page) || 1;
+  const limit = Number(req.query.limit) || 9;
+
+  const total = await Model.countDocuments();
+
   const features = new APIFeatures(Model.find(), req.query)
     .filter()
     .sort()
     .fields()
     .paginate();
   const models = await features.query;
+  const totalPages = Math.ceil(total / limit);
 
   res.status(200).json({
     status: "success",
     results: models.length,
+    total,
+    page,
+    limit,
+    totalPages,
     data: {
       models,
     },

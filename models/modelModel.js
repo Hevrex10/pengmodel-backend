@@ -76,6 +76,10 @@ const modelSchema = new mongoose.Schema(
       trim: true,
       maxlength: [100, "Social handle is too long"],
     },
+    gender: {
+      type: String,
+      enum: ["Male", "Female"],
+    },
 
     photos: [
       {

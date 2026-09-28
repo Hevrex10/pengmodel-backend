@@ -3,7 +3,7 @@ import cookieParser from "cookie-parser";
 import modelRouter from "./routes/modelRoute.js";
 import adminRouter from "./routes/adminRoute.js";
 import errorController from "./controllers/errorController.js";
-import applicationRouter from "./controllers/applicationRoute.js";
+import applicationRouter from "./routes/applicationRoute.js";
 import cors from "cors";
 
 const app = express();
@@ -30,6 +30,6 @@ app.use(express.json());
 app.use(cookieParser());
 app.use("/api/v1/models", modelRouter);
 app.use("/api/v1/admin", adminRouter);
-app.use("/api/v1/application", applicationRouter);
+app.use("/api/v1/application",applicationRouter);
 app.use(errorController);
 export default app;

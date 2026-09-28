@@ -3,7 +3,7 @@ import cookieParser from "cookie-parser";
 import modelRouter from "./routes/modelRoute.js";
 import adminRouter from "./routes/adminRoute.js";
 import errorController from "./controllers/errorController.js";
-import applicationRouter from "./controllers/applicationController.js";
+import applicationRouter from "./controllers/applicationRoute.js";
 import cors from "cors";
 
 const app = express();

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const modelSchema = new mongoose.Schema(
+const applicationSchema = new mongoose.Schema(
   {
     firstname: {
       type: String,
@@ -24,12 +24,14 @@ const modelSchema = new mongoose.Schema(
       trim: true,
       match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Please provide a valid email"],
     },
+
     age: {
-      type: String,
+      type: Number,
       required: [true, "Age is required"],
       min: [16, "Age must be at least 16"],
       max: [100, "Please provide a valid age"],
     },
+
     phone: {
       type: String,
       required: [true, "Phone number is required"],
@@ -80,6 +82,7 @@ const modelSchema = new mongoose.Schema(
       trim: true,
       maxlength: [100, "Social handle is too long"],
     },
+
     gender: {
       type: String,
       required: [true, "Gender is required"],
@@ -89,20 +92,21 @@ const modelSchema = new mongoose.Schema(
 
     photos: [
       {
-        type: [String],
+        type: String,
         required: true,
       },
     ],
+
     videos: [
       {
-        type: [String],
-        default: [],
+        type: String,
       },
     ],
+
     status: {
       type: String,
-      enum: ["approved", "rejected"],
-      default: "approved",
+      enum: ["pending", "reviewing", "approved", "rejected"],
+      default: "pending",
     },
   },
   {
@@ -110,6 +114,6 @@ const modelSchema = new mongoose.Schema(
   },
 );
 
-const Model = mongoose.model("Model", modelSchema);
+const Application = mongoose.model("Application", applicationSchema);
 
-export default Model;
+export default Application;

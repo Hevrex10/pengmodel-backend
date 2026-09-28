@@ -32,40 +32,73 @@ export async function getAllModel(req, res, next) {
 
 export async function createModel(req, res, next) {
   try {
-    if (!req.file) {
+    const photos = req.files?.photos || [];
+    const videos = req.files?.videos || [];
+
+    if (photos.length === 0) {
       return res.status(400).json({
         status: "fail",
-        message: "Please upload an image or video",
+        message: "Please upload at least one photo",
       });
     }
 
-    const result = await new Promise((resolve, reject) => {
-      const uploadStream = cloudinary.uploader.upload_stream(
-        {
-          folder: "pengmodels",
-          resource_type: "auto",
-        },
-        (error, result) => {
-          if (error) {
-            reject(error);
-          } else {
-            resolve(result);
-          }
-        },
-      );
-      uploadStream.end(req.file.buffer);
-    });
+    const photoUrls = [];
+    const videoUrls = [];
+
+    for (const file of photos) {
+      const result = await new Promise((resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream(
+          {
+            folder: "pengmodels",
+            resource_type: "image",
+          },
+          (error, result) => {
+            if (error) {
+              reject(error);
+            } else {
+              resolve(result);
+            }
+          },
+        );
+
+        uploadStream.end(file.buffer);
+      });
+
+      photoUrls.push(result.secure_url);
+    }
+
+    for (const file of videos) {
+      const result = await new Promise((resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream(
+          {
+            folder: "pengmodels",
+            resource_type: "video",
+          },
+          (error, result) => {
+            if (error) {
+              reject(error);
+            } else {
+              resolve(result);
+            }
+          },
+        );
+
+        uploadStream.end(file.buffer);
+      });
+
+      videoUrls.push(result.secure_url);
+    }
 
     const modelData = {
       ...req.body,
-      ...(result.resource_type === "video"
-        ? { videos: [result.secure_url] }
-        : { photos: [result.secure_url] }),
+      photos: photoUrls,
+      videos: videoUrls,
     };
 
     const model = await Model.create(modelData);
+
     res.status(201).json({
-      message: "success",
+      status: "success",
       data: {
         model,
       },

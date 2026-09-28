@@ -22,4 +22,3 @@ router
   .delete(protect, deleteApplication);
 
 export default router;
-                                                                                                                                                                                                                                                                                          

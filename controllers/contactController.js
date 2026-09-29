@@ -5,6 +5,13 @@ export async function sendContactMessage(req, res, next) {
   try {
     const { name, email, subject, message } = req.body;
 
+    console.log("CONTACT DATA:", {
+      name,
+      email,
+      subject,
+      message,
+    });
+
     if (!name || !email || !subject || !message) {
       return next(new AppError("Please fill in all fields", 400));
     }

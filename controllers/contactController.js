@@ -1,4 +1,4 @@
-import { sendEmail } from "../utils/sendEmail.js";
+import { sendEmail } from "../utils/email.js";
 import AppError from "../utils/appError.js";
 
 export async function sendContactMessage(req, res, next) {

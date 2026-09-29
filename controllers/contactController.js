@@ -37,6 +37,7 @@ export async function sendContactMessage(req, res, next) {
       message: "Your message has been sent successfully.",
     });
   } catch (err) {
+    console.error("CONTACT ERROR:", err);
     next(err);
   }
 }

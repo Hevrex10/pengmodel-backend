@@ -89,13 +89,13 @@ const modelSchema = new mongoose.Schema(
 
     photos: [
       {
-        type: [String],
+        type: String,
         required: true,
       },
     ],
     videos: [
       {
-        type: [String],
+        type: String,
         default: [],
       },
     ],

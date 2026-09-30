@@ -14,6 +14,13 @@ export async function sendEmail({ email, subject, message, replyTo }) {
     emailOptions.replyTo = replyTo;
   }
 
+    console.log("EMAIL OPTIONS:", {
+    from: emailOptions.from,
+    to: emailOptions.to,
+    subject: emailOptions.subject,
+    replyTo: emailOptions.replyTo,
+  });
+
   const { data, error } = await resend.emails.send(emailOptions);
   
 
@@ -21,5 +28,6 @@ export async function sendEmail({ email, subject, message, replyTo }) {
     console.error("RESEND ERROR:", error);
     throw new Error(error.message);
   }
+   console.log("EMAIL SENT:", data);
   return data;
 }
